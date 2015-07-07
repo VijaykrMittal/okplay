@@ -1,0 +1,18 @@
+[
+    { "id": 1,  "category":"Health"  },
+    { "id": 2,  "category": "Nutrition" },
+    { "id": 3,  "category": "Mental development" },
+    { "id": 4,  "category": "Education" },
+    { "id": 5,  "category": "Play time" },
+    { "id": 6,  "category": "Family" },
+    { "id": 7,  "category": "Travelling With Children" },
+    { "id": 8,  "category": "Recent News" },
+    { "id": 1,  "category":"Health"  },
+    { "id": 2,  "category": "Nutrition" },
+    { "id": 3,  "category": "Mental development" },
+    { "id": 4,  "category": "Education" },
+    { "id": 5,  "category": "Play time" },
+    { "id": 6,  "category": "Family" },
+    { "id": 7,  "category": "Travelling With Children" },
+    { "id": 8,  "category": "Recent News" }
+]

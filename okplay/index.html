@@ -3,14 +3,39 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
+    <link href="kendo/styles/kendo.common.min.css" rel="stylesheet"/>
+    <link href="kendo/styles/kendo.default.min.css" rel="stylesheet"/>
     <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+    <link href="styles/style.css" rel="stylesheet"/>
+    <link href="styles/main.css" rel="stylesheet"/>
 
     <script src="cordova.js"></script>
     <script src="kendo/js/jquery.min.js"></script>
     <script src="kendo/js/kendo.mobile.min.js"></script>
-    
 </head>
 <body>
     
+    <!--Layout-->
+    <div data-role="layout" data-id="main-layout">
+        <div data-role="header">
+            <div data-role="navbar">
+                <a data-role="button" data-icon="action" data-align="left" data-rel="drawer" href="#category-drawer"></a>
+                <span data-role="view-title"></span>
+            </div>
+        </div>
+    </div>
+    
+    <div data-role="drawer" id="category-drawer" data-model="app.homepage" data-show="app.homepage.show" data-use-native-scrolling="true" data-swipe-to-open="false">
+        <ul id="drawerList" data-role="listview" data-template="dataListView" data-bind="source:drawerData"></ul>
+    </div>
+    
+    
+    <script type="text/x-kendo-template" id="dataListView">
+        <span data-id="#: data['category'] #" data-bind="click:drawerChildClick">#: data['category'] #</span>
+    </script>
+    
+    <!--External JS Place Here-->
+    <script src="script/app.js"></script>
+    <script src="script/homepage.js"></script>
 </body>
 </html>
