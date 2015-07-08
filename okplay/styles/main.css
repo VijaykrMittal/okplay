@@ -1,5 +1,10 @@
 .km-drawer{content: "\e077";}
 li:after {content: none;}
-#drawerList li {padding:14px !important;background:#373F4A !important;color:#FFF !important;border-color: #252525 !important;}
-#drawerList li:last-child {border-bottom:1px solid !important;border-color: #252525 !important;border-width: 0 0 1px 0 !important;}
-#drawerList li span {font-size:16px !important;font-family:times !important}
+#ageList li, #categoryList li {padding:14px !important;background:#373F4A !important;color:#FFF !important;border-color: #252525 !important;}
+#ageList li:last-child, #categoryList li:last-child {border-bottom:1px solid !important;border-color: #252525 !important;border-width: 0 0 1px 0 !important;}
+#ageList li span, #categoryList li span {font-size:16px !important;font-family:times !important}
+
+/*7-8-2015*/
+#category-dropdown {text-align:center;display:none}
+#age-dropdown {text-align:center;display:none}
+.dropFld {width: 250px;height: 35px;}

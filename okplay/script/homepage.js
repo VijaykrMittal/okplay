@@ -3,9 +3,9 @@ var app = app || {};
 app.homepage = (function(){
     'use strict';
     
-    var drawerViewModel = (function(){
+    var categoryViewModel = (function(){
         
-        var drawerDataSource = new kendo.data.DataSource({
+        var categoryDataSource = new kendo.data.DataSource({
             transport:{
                 read:{
                     url:'script/category.json',
@@ -14,7 +14,7 @@ app.homepage = (function(){
             }
         });
         return{
-            drawerData:drawerDataSource
+            categorydrawerData:categoryDataSource
         };
     }());
     
@@ -30,10 +30,22 @@ app.homepage = (function(){
         {
            console.log(e);
             alert(e['target']['attributes']['data-id'].value);
+            alert(e['target']['attributes']['data-value'].value);
+            
+            if(e['target']['attributes']['data-value'].value === "category")
+            {
+                alert("category");
+                app.mobileApp.navigate("#healthView");
+            }
+            
+            if(e['target']['attributes']['data-value'].value === "age")
+            {
+                alert("age");
+            }
         };
        
         return {
-            drawerData:drawerViewModel.drawerData,
+            categorydrawerData:categoryViewModel.categorydrawerData,
             drawerChildClick:drawerChildClick,
             show:show
         };

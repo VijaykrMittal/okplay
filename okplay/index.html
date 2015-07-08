@@ -21,17 +21,33 @@
             <div data-role="navbar">
                 <a data-role="button" data-icon="action" data-align="left" data-rel="drawer" href="#category-drawer"></a>
                 <span data-role="view-title"></span>
+                <a data-role="button" data-icon="action" data-align="right" data-rel="drawer" href="#age-drawer"></a>
             </div>
         </div>
     </div>
     
+    <!--Category drawer list-->
     <div data-role="drawer" id="category-drawer" data-model="app.homepage" data-show="app.homepage.show" data-use-native-scrolling="true" data-swipe-to-open="false">
-        <ul id="drawerList" data-role="listview" data-template="dataListView" data-bind="source:drawerData"></ul>
+        <ul id="categoryList" data-role="listview" data-template="categoryListView" data-bind="source:categorydrawerData">
+
+        </ul>
     </div>
     
+    <!--Age drawer list-->
+    <div data-role="drawer" id="age-drawer" data-model="app.homepage" data-show="app.homepage.show" data-use-native-scrolling="true" data-swipe-to-open="false" data-position="right">
+        <ul id="ageList" data-role="listview">
+            <li><span data-value="age" data-bind="click:drawerChildClick" data-id="Prenatal">Prenatal</span></li>
+            <li><span data-value="age" data-bind="click:drawerChildClick" data-id="0 to 3 months">0 to 3 months</span></li>
+            <li><span data-value="age" data-bind="click:drawerChildClick" data-id="3 to 12 months">3 to 12 months</span></li>
+            <li><span data-value="age" data-bind="click:drawerChildClick" data-id="1 to 3 years">1 to 3 years</span></li>
+            <li><span data-value="age" data-bind="click:drawerChildClick" data-id="3 to 5 years">3 to 5 years</span></li>
+            <li><span data-value="age" data-bind="click:drawerChildClick" data-id="5 to 7 years">5 to 7 years</span></li>
+        </ul>
+    </div>
     
-    <script type="text/x-kendo-template" id="dataListView">
-        <span data-id="#: data['category'] #" data-bind="click:drawerChildClick">#: data['category'] #</span>
+    <!--Category drawer Template-->
+    <script type="text/x-kendo-template" id="categoryListView">
+        <span data-value="#: data['task'] #" data-id="#: data['value'] #" data-bind="click:drawerChildClick">#: data['value'] #</span>
     </script>
     
     <!--External JS Place Here-->
