@@ -35,6 +35,7 @@ app.homepage = (function(){
             if(e['target']['attributes']['data-value'].value === "category")
             {
                 alert("category");
+                $().css("display","block");
                 app.mobileApp.navigate("#healthView");
             }
             
