@@ -6,12 +6,13 @@
     <div data-role="content">
         <div id="headerContent">
             <p data-bind="text:categoryName"></p>
+            <p data-bind="text:categoryText"></p>
         </div>
         
         <div id="filterDropdwn">
             <p id="category-dropdown">
                 <select class="dropFld" onchange="app.homeService.viewModel.ageDrpDownFilter(this.value);">
-                    <option selected="selected">-Any-</option>
+                    <option value="0" selected="selected">-Any-</option>
                     <option>Health</option>
                     <option>Nutrition</option>
                     <option>Mental development</option>
@@ -34,7 +35,7 @@
                 </select>
             </p>
         </div>
-        <div>
+        <div style="margin-top: 50px;">
             <p class="noartcle" data-bind="text:dataListStatus"></p>
             <ul id="List" data-role="listview" data-template="ListView" data-bind="source:listData">
 
@@ -44,6 +45,6 @@
 </div>
 
 <script type="text/x-kendo-template" id="ListView">
-        <span data-value="#: data['id'] #" data-id="#: data['value'] #" data-bind="click:drawerChildClick">#: data['task'] #  #: data['year'] #</span>
+        <span data-value="#: data['id'] #" data-id="#: data['value'] #">#: data['task'] # -------- #: data['year'] #</span>
 </script>
 

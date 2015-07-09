@@ -7,6 +7,7 @@
         categorydrawerData:'',
         categoryName:'',
         dataListStatus:'',
+        categoryText:'',
         
         show : function(e)
         {
@@ -40,11 +41,13 @@
             if(data.length === 0)
             {
                 this.set("dataListStatus","There is no article.");
+                this.set("categoryText","");
                 this.set("listData","");
             }
             if(data.length>0)
             {
                 this.set("dataListStatus","");
+                this.set("categoryText",data[0]['text']);
                 this.set("listData",data);
             }
             
@@ -52,8 +55,13 @@
         
         drpdownFilter : function(data)
         {
-            console.log(data);
-            var categoryDataSource = new kendo.data.DataSource({
+            if(data === 0 || data === "0")
+            {
+                app.homeService.viewModel.fetchCategoryData(sessionStorage.getItem('categorySelectItem'));
+            }
+            else
+            {
+                var categoryDataSource = new kendo.data.DataSource({
                 transport:{
                     read:{
                         url:'script/categoryData.json',
@@ -67,17 +75,25 @@
                         { field: "value", operator: "eq", value: sessionStorage.getItem('categorySelectItem') }
                     ]
                 }
-            });
-            categoryDataSource.fetch(function(){
-                var data = this.view();
-                app.homeService.viewModel.setcategoryData(data);
-            });
+                });
+                categoryDataSource.fetch(function(){
+                    var data = this.view();
+                    app.homeService.viewModel.setcategoryData(data);
+                });
+            }
+            
         },
         
         ageDrpDownFilter : function(data)
         {
             console.log(data);
-            var categoryDataSource = new kendo.data.DataSource({
+            if(data === "0" || data === 0)
+            {
+                app.homeService.viewModel.fetchAgeData(sessionStorage.getItem('ageSelectItem'));
+            }
+            else
+            {
+                var categoryDataSource = new kendo.data.DataSource({
                 transport:{
                     read:{
                         url:'script/categoryData.json',
@@ -91,19 +107,19 @@
                         { field: "year", operator: "eq", value: sessionStorage.getItem('ageSelectItem') }
                     ]
                 }
-            });
-            categoryDataSource.fetch(function(){
-                var data = this.view();
-                app.homeService.viewModel.setcategoryData(data);
-            });
+                });
+                categoryDataSource.fetch(function(){
+                    var data = this.view();
+                    app.homeService.viewModel.setcategoryData(data);
+                });
+            }
         },
         
         drawerChildClick : function(e)
         {
             var that = this;
-            console.log(e);
-            alert(e['target']['attributes']['data-id'].value);
-            alert(e['target']['attributes']['data-value'].value);
+           // alert(e['target']['attributes']['data-id'].value);
+           // alert(e['target']['attributes']['data-value'].value);
             
             if(e['target']['attributes']['data-value'].value === "category")
             {
@@ -144,7 +160,6 @@
         
         fetchAgeData : function(data)
         {
-            console.log(data);
             sessionStorage.setItem("ageSelectItem",data);
             var categoryDataSource = new kendo.data.DataSource({
                 transport:{

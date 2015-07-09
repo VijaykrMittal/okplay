@@ -5,11 +5,12 @@ li:after {content: none;}
 #ageList li span, #categoryList li span {font-size:16px !important;font-family:times !important}
 
 /*7-8-2015*/
-#category-dropdown {text-align:center;display:none}
-#age-dropdown {text-align:center;display:none}
-.dropFld {width: 250px;height: 35px;}
+#category-dropdown {text-align:center;display:none;margin-top: 50px;}
+#age-dropdown {text-align:center;display:none;margin-top: 50px;}
+.dropFld {width: 90%;height: 35px;padding-left:7px;}
 
 /*8-8-2015*/
 
-#headerContent p {font-size: 25px;text-align: center;}
+#headerContent p:nth-child(1) {font-size: 25px;text-align: center;}
+#headerContent p:nth-child(2) {font-size: 14px;text-align: justify;}
 .noartcle {font-size: 14px;margin-top: 30px;text-align: center;}
