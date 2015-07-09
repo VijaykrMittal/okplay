@@ -8,3 +8,8 @@ li:after {content: none;}
 #category-dropdown {text-align:center;display:none}
 #age-dropdown {text-align:center;display:none}
 .dropFld {width: 250px;height: 35px;}
+
+/*8-8-2015*/
+
+#headerContent p {font-size: 25px;text-align: center;}
+.noartcle {font-size: 14px;margin-top: 30px;text-align: center;}
