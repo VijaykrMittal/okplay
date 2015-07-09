@@ -41,7 +41,7 @@
             if(data.length === 0)
             {
                 this.set("dataListStatus","There is no article.");
-                this.set("categoryText","");
+                //this.set("categoryText","");
                 this.set("listData","");
             }
             if(data.length>0)
