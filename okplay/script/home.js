@@ -8,6 +8,8 @@
         categoryName:'',
         dataListStatus:'',
         categoryText:'',
+        listData:'',
+        blok:'',
         
         show : function(e)
         {
@@ -86,7 +88,6 @@
         
         ageDrpDownFilter : function(data)
         {
-            console.log(data);
             if(data === "0" || data === 0)
             {
                 app.homeService.viewModel.fetchAgeData(sessionStorage.getItem('ageSelectItem'));
@@ -174,7 +175,41 @@
                 var data = this.view();
                 app.homeService.viewModel.setcategoryData(data);
             });
+        },
+        
+        blokshow:function(e)
+        {
+            console.log(e['sender']['params']['task']);
+            
+            var blokDataSource = new kendo.data.DataSource({
+                transport:{
+                    read:{
+                        url:'script/categoryData.json',
+                        dataType:'json'
+                    }
+                },
+                filter: { field: "task", operator: "eq", value: e['sender']['params']['task'] }
+            });
+            blokDataSource.fetch(function(){
+                var data = this.view();
+                app.homeService.viewModel.setblokDataSource(data);
+            });
+            
+        },
+        
+        setblokDataSource:function(data)
+        {
+            this.set("blok",data);
+            console.log(data);
+        },
+        
+        readyToBlock:function(e)
+        {
+            //alert("click");
+           // console.log(e);
+            app.mobileApp.navigate("views/blokview.html?task="+(e['currentTarget']['attributes']['data-task'].value));
         }
+        
         
     });
     app.homeService = {

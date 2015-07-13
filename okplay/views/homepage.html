@@ -2,7 +2,7 @@
     
 </div>
 
-<div data-role="view" id="healthView" data-model="app.homeService.viewModel" data-show="app.homeService.viewModel.show">
+<div data-role="view" id="healthView" data-model="app.homeService.viewModel" data-show="app.homeService.viewModel.show" data-use-native-scrolling="true">
     <div data-role="content">
         <div id="headerContent">
             <p data-bind="text:categoryName"></p>
@@ -41,10 +41,17 @@
 
             </ul>
         </div>
+        <div style="margin-bottom:30px;">
+            
+        </div>
     </div>
 </div>
 
 <script type="text/x-kendo-template" id="ListView">
-        <span data-value="#: data['id'] #" data-id="#: data['value'] #">#: data['task'] # -------- #: data['year'] #</span>
+   <a data-bind="click:readyToBlock" data-task="#: data['task'] #">
+        <div  style="width:100%;height:250px;background:url('styles/images/cat6.jpg') no-repeat;background-size:100% 100%;">
+            <span data-value="#: data['id'] #">#: data['task'] # -------- #: data['year'] #</span>
+        </div>
+   </a>
 </script>
 
