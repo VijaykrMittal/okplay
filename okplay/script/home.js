@@ -13,7 +13,39 @@
         
         freshshow:function()
         {
-            var category = new kendo.data.DataSource({
+            
+            var dataItem = {};
+            var columns = [];
+            
+            var data = [{ name: "Jane Doe", age: 30},{ name: "Jane Doe", age: 30},{ name: "Jane Doe", age: 30}];
+            console.log(data[0])
+            
+            for (var i = 0; i < data.length; i++) {
+                dataItem['col' + i] = data[i]['name'];
+                columns.push({
+                    field: 'col' + i,
+                    width: 192,
+                    filterable: true,
+                    attributes: {
+      "class": data[i]['name']
+    }
+
+                });
+            }
+            
+            
+            
+            $("#grid").kendoGrid({
+                scrollable: true,
+                columns: columns,
+                filterable: true,
+                type:'number',
+  dataSource: [dataItem],
+  altRowTemplate: kendo.template($("#alt-template").html())
+});
+            
+            
+            /*var category = new kendo.data.DataSource({
                 transport:{
                     read:{
                         url:'script/category.json',
@@ -29,28 +61,28 @@
                     console.log(data[i]['value']);
                 }
                 app.homeService.viewModel.checkIT(data);
-            });
+            });*/
         },
         
         checkIT : function(data)
         {
-          var dataItem = {};
+            var dataItem = {};
             var columns = [];
 
             for (var i = 0; i < data.length; i++) {
                 dataItem['col' + i] = data[i]['value'];
                 columns.push({
-                    field: 'col' + i,
+                    field: 'cat' + i,
                     width: 192,
                     filterable: true
                 });
             }
             
             $("#grid").kendoGrid({
-            scrollable: true,
-            columns: columns,
-            filterable: true,
-            dataSource: [dataItem]
+                scrollable: true,
+                columns: columns,
+                filterable: true,
+                dataSource: [dataItem]
             });
         },
         show : function(e)
