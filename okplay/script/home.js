@@ -11,6 +11,48 @@
         listData:'',
         blok:'',
         
+        freshshow:function()
+        {
+            var category = new kendo.data.DataSource({
+                transport:{
+                    read:{
+                        url:'script/category.json',
+                        dataType:'json'
+                    }
+                }
+            });
+            category.fetch(function(){
+                var data = this.data();
+                console.log(data.length);
+                for(var i=0;i<data.length;i++)
+                {
+                    console.log(data[i]['value']);
+                }
+                app.homeService.viewModel.checkIT(data);
+            });
+        },
+        
+        checkIT : function(data)
+        {
+          var dataItem = {};
+            var columns = [];
+
+            for (var i = 0; i < data.length; i++) {
+                dataItem['col' + i] = data[i]['value'];
+                columns.push({
+                    field: 'col' + i,
+                    width: 192,
+                    filterable: true
+                });
+            }
+            
+            $("#grid").kendoGrid({
+            scrollable: true,
+            columns: columns,
+            filterable: true,
+            dataSource: [dataItem]
+            });
+        },
         show : function(e)
         {
             $('#category-dropdown select').val(0);
@@ -28,7 +70,13 @@
             });
             categoryDataSource.fetch(function(){
                 var data = this.data();
+                console.log(data.length);
+                for(var i=0;i<data.length;i++)
+                {
+                    console.log(data[i]['value']);
+                }
                 app.homeService.viewModel.setcategoryDataSource(data);
+                //app.homeService.viewModel.freshshow(data);
             });
             
         },
