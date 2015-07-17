@@ -7,7 +7,7 @@
         <p data-bind="text:categoryText"></p>
     </div>
     
-    <div style="margin-top: 50px;">
+    <div style="margin-top: -15px;">
         <p class="noartcle" data-bind="text:dataListStatus"></p>
         <ul id="List" data-role="listview" data-template="ListView" data-bind="source:listData">
 
@@ -16,6 +16,12 @@
     
     
 </div>
+
+<script type="text/x-kendo-template" id="ListView">
+   <div data-bind="click:readyToBlock" data-id="#: data['id'] #"  style="width:100%;height:250px;background:url('#:data['path']#') no-repeat;background-size:100% 100%;">
+        <span data-value="#: data['id'] #" class="textTitle">#: data['title'] #</span>
+   </div>
+</script>
 
 <div data-role="view" id="healthView" data-model="app.homeService.viewModel" data-show="app.homeService.viewModel.show" data-use-native-scrolling="true">
     <div data-role="content">
@@ -62,9 +68,5 @@
     </div>
 </div>
 
-<script type="text/x-kendo-template" id="ListView">
-    <div data-bind="click:readyToBlock" data-task="#: data['task'] #"  style="width:100%;height:250px;background:url('styles/images/cat6.jpg') no-repeat;background-size:100% 100%;">
-        <span data-value="#: data['id'] #">#: data['task'] # -------- #: data['year'] #</span>
-    </div>
-</script>
+
 

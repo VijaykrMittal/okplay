@@ -16,33 +16,35 @@
     <style>
         .k-grid .k-header {display: none;}
          #grid tbody tr{height:50px;}
+         
+        .km-touch-scrollbar {opacity:0 !important}
     </style>
     
 </head>
 <body>
     
     <!--Layout-->
-    <div data-role="layout" data-id="main-layout">
+    <div data-role="layout" data-id="main-layout" data-model="app.homeService.viewModel" data-show="app.homeService.viewModel.ageshow">
         <div data-role="header">
             <div data-role="navbar">
-                <a data-role="backbutton" data-align="left">back</a>
+                <a data-role="backbutton" data-align="right">back</a>
                 <span data-role="view-title"></span>
-                <a data-role="button" data-icon="action" data-align="right" data-rel="drawer" href="#age-drawer"></a>
+                <a data-role="button" data-icon="action" data-align="left" data-rel="drawer" href="#age-drawer"></a>
             </div>
         </div>
     </div>
     
-    <!--Age drawer list-->
-    <div data-role="drawer" id="age-drawer" data-model="app.homeService.viewModel" data-show="app.homeService.viewModel.show" data-use-native-scrolling="true" data-swipe-to-open="false" data-position="right">
-        <ul id="ageList" data-role="listview">
-            <li><span data-value="age" data-bind="click:drawerAgeFilter" data-id="Prenatal">Prenatal</span></li>
-            <li><span data-value="age" data-bind="click:drawerAgeFilter" data-id="0 to 3 months">0 to 3 months</span></li>
-            <li><span data-value="age" data-bind="click:drawerAgeFilter" data-id="3 to 12 months">3 to 12 months</span></li>
-            <li><span data-value="age" data-bind="click:drawerAgeFilter" data-id="1 to 3 years">1 to 3 years</span></li>
-            <li><span data-value="age" data-bind="click:drawerAgeFilter" data-id="3 to 5 years">3 to 5 years</span></li>
-            <li><span data-value="age" data-bind="click:drawerAgeFilter" data-id="5 to 7 years">5 to 7 years</span></li>
+    <!--age drawer list-->
+    <div data-role="drawer" id="age-drawer" data-model="app.homeService.viewModel" data-show="app.homeService.viewModel.ageshow" data-use-native-scrolling="true" data-swipe-to-open="false" data-position="left">
+        <ul id="ageList" data-role="listview" data-template="ageListView" data-bind="source:agedrawerData">
+
         </ul>
     </div>
+    
+    <!--Age List Template-->
+    <script type="text/x-kendo-template" id="ageListView">
+        <span data-id="#: data['id'] #" data-bind="click:drawerAgeFilter" style="padding: 15px 100px 17px 0px;">#: data['name'] #</span>
+    </script>
     
     <!--External JS Place Here-->
     <script src="script/app.js"></script>

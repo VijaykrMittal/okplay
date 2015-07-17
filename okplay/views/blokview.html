@@ -1,11 +1,32 @@
 <div data-role="view"  id="articleBlok" data-model="app.homeService.viewModel" data-show="app.homeService.viewModel.storyBlokshow">
-    <div id="blokData" data-template="blokView" data-bind="source:blok">
+    <div id="blokData" data-template="blokView" data-bind="source:articleDetail">
         
     </div>
 </div>
 
 <script type="text/x-kendo-template" id="blokView">
-    <p>
-        #:data['blok'] #
-    </p>
+    <div style="width: 100%;margin-top: 3px;">
+        <div style="width:100%;height:205px;background:url('#:data['field_inner_bannr_image']#') no-repeat;background-size:100% 100%;">
+    
+        </div>
+        <div style="width:90%;margin:0px auto;border:1px solid \#ccc">
+            <div style="width:100%;height:70px;background-color:\#00AEEF;margin-top: -45px;">
+                <p style="font-size:25px;text-align:center;color:\#FFF">#:data['field_first_title']#</p>
+                <h2 style="text-align:center;margin-top: -20px;color:\#FFF">#:data['field_bold_title']#</h2>
+            </div>
+            <p style="text-align:center">#:data['field_first_text_area']#</p>
+    
+            <p style="font-size:20px;text-align:center">#:data['field_second_title']#</p>
+            <p style="text-align:center">#:data['field_second_text_area']#</p>
+    
+            <p style="font-size:20px;text-align:center">#:data['field_third_title']#</p>
+            <p style="text-align:center">#:data['field_third_text_area']#</p>
+    
+            <p style="font-size:20px;text-align:center">#:data['field_fourth_title']#</p>
+            <p style="text-align:center">#:data['field_fourth_text_area']#</p>
+    
+            <p style="font-size:20px;text-align:center">#:data['field_fifth_title']#</p>
+            <p style="text-align:center">#:data['field_fifth_text_area']#</p>
+        </div>
+    </div>
 </script>

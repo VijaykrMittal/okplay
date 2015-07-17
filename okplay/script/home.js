@@ -9,7 +9,7 @@
         dataListStatus:'',
         categoryText:'',
         listData:'',
-        blok:'',
+        articleDetail:'',
         
         categoryShow:function(e)
         { 
@@ -17,17 +17,30 @@
             if(sessionStorage.getItem('mainArticleStatus') === null || sessionStorage.getItem('mainArticleStatus') === "null")
             {
                 var category = new kendo.data.DataSource({
-                    transport:{
-                        read:{
-                            url:'script/category.json',
-                            dataType:'json'
+                    transport: {
+                        read: {
+                            url: 'http://okplay.club/mobileapi/allcategories',
+                            type:"GET",
+                            dataType: "json",
                         }
-                    }
+                    },
+                    schema: {
+                        data: function(data)
+                        {
+                            return [data];
+                        }
+                    },
+                    error: function (e) {
+                        navigator.notification.alert("Server not responding properly.Please check your internet connection.",
+                        function () { }, "Notification", 'OK');
+                    },
+
                 });
                 category.fetch(function(){
                     var data = this.data();
-                    app.homeService.viewModel.getCategoryData(data);
-                    app.homeService.viewModel.fetchCategoryData(data[0]['value']);
+                    //app.mobileApp.showLoading();
+                    app.homeService.viewModel.getCategoryData(data[0]);
+                    app.homeService.viewModel.fetchCategoryData(data[0][0]['id']);
                 });
             }
         },
@@ -44,18 +57,21 @@
                 $( "#grid .k-grid-content").remove();
             }
             
-            for (var i = 0; i < data.length; i++) {
-                dataItem['col' + i] = data[i]['value'];
-                columns.push({
-                    field: 'col' + i,
-                    width: 192,
-                    filterable: true,
-                    attributes: {
-                        "data-id": data[i]['value'],
-                        "align":'center',
-                        "class":data[i]['class']
-                    }
-                });
+            for (x in data) 
+            {
+                if($.isNumeric(x))
+                {
+                    dataItem['col' + x] = data[x]['name'];
+                    columns.push({
+                        field: 'col' + x,
+                        width: 192,
+                        filterable: true,
+                        attributes: {
+                            "data-id": data[x]['id'],
+                            "align":'center'
+                        }
+                    });
+                }
             }
            
            $("#grid").kendoGrid({
@@ -67,18 +83,48 @@
                 dataSource: [dataItem],
                 selectable:'cell'
             });
+            //app.mobileApp.hideLoading();
         },
         
         passCategoryId:function()
         {
-            alert("select Id : "+$('.k-state-selected').attr('data-id'));
             app.homeService.viewModel.fetchCategoryData($('.k-state-selected').attr('data-id'));
         },
         
-        show : function(e)
+        ageshow : function(e)
         {
             $('[data-role="drawer"]').children().css("background-color","#373F4A");
             e.view.scroller.scrollTo(0, 0);
+            
+            var ageData = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: 'http://okplay.club/mobileapi/all-ages-list',
+                        type:"GET",
+                        dataType: "json",
+                    }
+                },
+                schema: {
+                    data: function(data)
+                    {
+                        return [data];
+                    }
+                },
+                error: function (e) {
+                    navigator.notification.alert("Server not responding properly.Please check your internet connection.",
+                    function () { }, "Notification", 'OK');
+                },
+
+                });
+                ageData.fetch(function(){
+                    var data = this.data();
+                    app.homeService.viewModel.setAgeDataSource(data[0]);
+                });
+        },
+        
+        setAgeDataSource :function(data)
+        {
+            this.set("agedrawerData",data);
         },
         
         setcategoryData :function(data)
@@ -92,8 +138,8 @@
             if(data.length>0)
             {
                 this.set("dataListStatus","");
-                this.set("categoryName",data[0]['value']);
-                this.set("categoryText",data[0]['text']);
+               /* this.set("categoryName",data[0]['value']);
+                this.set("categoryText",data[0]['text']);*/
                 this.set("listData",data);
             }
         },
@@ -101,26 +147,33 @@
         drawerAgeFilter : function(e)
         {
             var data = e['target']['attributes']['data-id'].value;
-            var categoryDataSource = new kendo.data.DataSource({
-                transport:{
-                    read:{
-                        url:'script/categoryData.json',
-                        dataType:'json'
-                    }
-                },
-                filter:{
-                    logic:"and",
-                    filters:[
-                        { field: "year", operator: "eq", value: data },
-                        { field: "value", operator: "eq", value: sessionStorage.getItem('categorySelectItem') }
-                    ]
-                }
+            var categoryDataSource  = new kendo.data.DataSource({
+                    transport: {
+                        read: {
+                            url:'http://okplay.club/mobileapi/article-list',
+                            type:"GET",
+                            dataType: "json",
+                            data: { apiaction:"articlelist",catId:sessionStorage.getItem("categorySelectItem"),ageId:data} 
+                        }
+                        
+                    },
+                    filter: { field: "value", operator: "eq", value: data },
+                    schema: {
+                        data: function(data)
+                        {
+                        	return [data];
+                        }
+                    },
+                    error: function (e) {
+                    	navigator.notification.alert("Server not responding properly.Please check your internet connection.",
+                    	function () { }, "Notification", 'OK');
+                    },
                 });
-            categoryDataSource.fetch(function(){
-                var data = this.view();
-                console.log(data);
-                app.homeService.viewModel.setcategoryData(data);
-            });
+                categoryDataSource .fetch(function(){
+                    var that = this;
+                    var data = that.data();
+                    app.homeService.viewModel.setcategoryData(data[0]['data']);
+                });
             
             $("#age-drawer").data("kendoMobileDrawer").hide();
         },
@@ -128,50 +181,77 @@
         fetchCategoryData : function(data)
         {
             sessionStorage.setItem("categorySelectItem",data);
-            var categoryDataSource = new kendo.data.DataSource({
-                transport:{
-                    read:{
-                        url:'script/categoryData.json',
-                        dataType:'json'
-                    }
-                },
-                filter: { field: "value", operator: "eq", value: data }
-            });
-            categoryDataSource.fetch(function(){
-                var data = this.view();
-                app.homeService.viewModel.setcategoryData(data);
-            });
+            var categoryDataSource  = new kendo.data.DataSource({
+                    transport: {
+                        read: {
+                            url:'http://okplay.club/mobileapi/article-list',
+                            type:"GET",
+                            dataType: "json", // "jsonp" is required for cross-domain requests; use "json" for same-domain requests
+                            data: { apiaction:"articlelist",catId:data} 
+                        }
+                        
+                    },
+                    filter: { field: "value", operator: "eq", value: data },
+                    schema: {
+                        data: function(data)
+                        {
+                        	return [data];
+                        }
+                    },
+                    error: function (e) {
+                    	navigator.notification.alert("Server not responding properly.Please check your internet connection.",
+                    	function () { }, "Notification", 'OK');
+                    },
+                });
+                categoryDataSource .fetch(function(){
+                    var that = this;
+                    var data = that.data();
+                    app.homeService.viewModel.setcategoryData(data[0]['data']);
+                });
         },
         
         storyBlokshow:function(e)
         {
-            var blokDataSource = new kendo.data.DataSource({
-                transport:{
-                    read:{
-                        url:'script/categoryData.json',
-                        dataType:'json'
+            var category = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: 'http://okplay.club/mobileapi/article-detail',
+                        type:"GET",
+                        dataType: "json", 
+                        data: { apiaction:"articledetail",nodeId:e['sender']['params']['id']} 
                     }
                 },
-                filter: { field: "task", operator: "eq", value: e['sender']['params']['task'] }
+                schema: {
+                    data: function(data)
+                    {
+                        return [data];
+                    }
+                },
+                error: function (e) {
+                    navigator.notification.alert("Server not responding properly.Please check your internet connection.",
+                    function () { }, "Notification", 'OK');
+                },
+
             });
-            blokDataSource.fetch(function(){
-                var data = this.view();
-                app.homeService.viewModel.setblokDataSource(data);
+            category.fetch(function(){
+                var data = this.data();
+                console.log(data);
+               // app.mobileApp.showLoading();
+                app.homeService.viewModel.setblokDataSource(data[0]['data']);
             });
             
         },
         
         setblokDataSource:function(data)
         {
-            this.set("blok",data);
+            this.set("articleDetail",data);
         },
         
         readyToBlock:function(e)
         {
-            //alert("click");
-           // console.log(e);
+            console.log(e);
             sessionStorage.setItem("mainArticleStatus","true");
-            app.mobileApp.navigate("views/blokview.html?task="+(e['currentTarget']['attributes']['data-task'].value));
+            app.mobileApp.navigate("views/blokview.html?id="+(e['currentTarget']['attributes']['data-id'].value));
         }
         
         
