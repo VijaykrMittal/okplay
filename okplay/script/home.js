@@ -15,6 +15,7 @@
         { 
             e.view.scroller.scrollTo(0, 0);
             app.mobileApp.showLoading();
+             
             if(sessionStorage.getItem('mainArticleStatus') === null || sessionStorage.getItem('mainArticleStatus') === "null")
             {
                 var category = new kendo.data.DataSource({
@@ -45,6 +46,7 @@
             }
             else
             {
+                $('#ageDrawer').removeClass("drawerBtn");
                 setTimeout(function(){
                     app.mobileApp.hideLoading();
                 },500)
@@ -276,6 +278,7 @@
         setArticleDataSource:function(data)
         {
             this.set("articleDetail",data);
+             $('#ageDrawer').addClass("drawerBtn");
             app.mobileApp.navigate("views/articleData.html");
         },
     });
