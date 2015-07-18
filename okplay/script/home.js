@@ -14,6 +14,7 @@
         categoryShow:function(e)
         { 
             e.view.scroller.scrollTo(0, 0);
+            app.mobileApp.showLoading();
             if(sessionStorage.getItem('mainArticleStatus') === null || sessionStorage.getItem('mainArticleStatus') === "null")
             {
                 var category = new kendo.data.DataSource({
@@ -38,10 +39,16 @@
                 });
                 category.fetch(function(){
                     var data = this.data();
-                    //app.mobileApp.showLoading();
                     app.homeService.viewModel.getCategoryData(data[0]);
                     app.homeService.viewModel.fetchCategoryData(data[0][0]['id']);
                 });
+            }
+            else
+            {
+                setTimeout(function(){
+                    app.mobileApp.hideLoading();
+                },500)
+                
             }
         },
         
@@ -88,6 +95,7 @@
         
         passCategoryId:function()
         {
+            app.mobileApp.showLoading();   
             app.homeService.viewModel.fetchCategoryData($('.k-state-selected').attr('data-id'));
         },
         
@@ -137,10 +145,19 @@
             }
             if(data.length>0)
             {
+                if(sessionStorage.getItem('categorySelectItem') === 80 || sessionStorage.getItem('categorySelectItem') === '80')
+                {
+                    $('#grid tbody tr td:nth-child(1)').addClass("k-state-selected");
+                }
+                else
+                {
+                    $('#grid tbody tr td:nth-child(1)').removeClass("k-state-selected");
+                }
                 this.set("dataListStatus","");
-               /* this.set("categoryName",data[0]['value']);
+              /*this.set("categoryName",data[0]['value']);
                 this.set("categoryText",data[0]['text']);*/
                 this.set("listData",data);
+                app.mobileApp.hideLoading();
             }
         },
         
@@ -210,15 +227,24 @@
                 });
         },
         
-        storyBlokshow:function(e)
+        articleContentShow:function()
         {
+            setTimeout(function(){
+                app.mobileApp.hideLoading();
+            },500);
+        },
+        
+        articleDataCall:function(e)
+        {
+            app.mobileApp.showLoading();
+            sessionStorage.setItem("mainArticleStatus","true");
             var category = new kendo.data.DataSource({
                 transport: {
                     read: {
                         url: 'http://okplay.club/mobileapi/article-detail',
                         type:"GET",
                         dataType: "json", 
-                        data: { apiaction:"articledetail",nodeId:e['sender']['params']['id']} 
+                        data: { apiaction:"articledetail",nodeId:e['target']['attributes']['data-id'].value} 
                     }
                 },
                 schema: {
@@ -235,26 +261,23 @@
             });
             category.fetch(function(){
                 var data = this.data();
-                console.log(data);
-               // app.mobileApp.showLoading();
-                app.homeService.viewModel.setblokDataSource(data[0]['data']);
+                if(data[0]['code'] === 1 || data[0]['code'] === '1')
+                {
+                    app.homeService.viewModel.setArticleDataSource(data[0]['data']);
+                }
+                else
+                {
+                    navigator.notification.alert('Server not responding properly,Please try again',function(){},"Notification","OK");
+                }
             });
             
         },
         
-        setblokDataSource:function(data)
+        setArticleDataSource:function(data)
         {
             this.set("articleDetail",data);
+            app.mobileApp.navigate("views/articleData.html");
         },
-        
-        readyToBlock:function(e)
-        {
-            console.log(e);
-            sessionStorage.setItem("mainArticleStatus","true");
-            app.mobileApp.navigate("views/blokview.html?id="+(e['currentTarget']['attributes']['data-id'].value));
-        }
-        
-        
     });
     app.homeService = {
         viewModel : new homeViewModel()

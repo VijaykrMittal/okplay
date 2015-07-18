@@ -14,5 +14,5 @@ li:after {content: none;}
 #headerContent p:nth-child(1) {font-size: 25px;text-align: center;}
 #headerContent p:nth-child(2) {font-size: 14px;text-align: center;}
 .noartcle {font-size: 14px;margin-top: 30px;text-align: center;}
-.textTitle {font-weight: 100;font-size: 25px;padding-left: 8px;line-height: 39px;color: #FFF;font-family: times;text-shadow:#000 2px 2px;}
+.textTitle {font-weight: 100;font-size: 18px;padding-left: 8px;line-height: 39px;color: #FFF;font-family: times;text-shadow:#000 2px 2px 5px;}
 #ageList li:nth-child(1) span{padding: 15px 180px 17px 0px !important;}

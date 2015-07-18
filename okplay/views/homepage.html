@@ -13,12 +13,10 @@
 
         </ul>
     </div>
-    
-    
 </div>
 
 <script type="text/x-kendo-template" id="ListView">
-   <div data-bind="click:readyToBlock" data-id="#: data['id'] #"  style="width:100%;height:250px;background:url('#:data['path']#') no-repeat;background-size:100% 100%;">
+   <div data-bind="click:articleDataCall" data-id="#: data['id'] #"  style="width:100%;height:250px;background:url('#:data['path']#') no-repeat;background-size:100% 100%;">
         <span data-value="#: data['id'] #" class="textTitle">#: data['title'] #</span>
    </div>
 </script>
