@@ -15,6 +15,7 @@
         { 
             e.view.scroller.scrollTo(0, 0);
             app.mobileApp.showLoading();
+            $('#backbtn').addClass("drawerBtn");
              
             if(sessionStorage.getItem('mainArticleStatus') === null || sessionStorage.getItem('mainArticleStatus') === "null")
             {
@@ -139,11 +140,13 @@
         
         setcategoryData :function(data)
         {
+            console.log(data.length);
             if(data.length === 0)
             {
                 this.set("dataListStatus","There is no article.");
                 //this.set("categoryText","");
                 this.set("listData","");
+                app.mobileApp.hideLoading();
             }
             if(data.length>0)
             {
@@ -234,6 +237,7 @@
             setTimeout(function(){
                 app.mobileApp.hideLoading();
             },500);
+            
         },
         
         articleDataCall:function(e)
@@ -278,8 +282,10 @@
         setArticleDataSource:function(data)
         {
             this.set("articleDetail",data);
-             $('#ageDrawer').addClass("drawerBtn");
+            $('#ageDrawer').addClass("drawerBtn");
+            $('#backbtn').removeClass("drawerBtn");
             app.mobileApp.navigate("views/articleData.html");
+            
         },
     });
     app.homeService = {
